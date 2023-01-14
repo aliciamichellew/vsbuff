@@ -21,7 +21,7 @@
         {
           "id": "vsbuff-sidebar-view",
           "title": "vsbuff",
-          "icon": "media/nusmods_logo.svg"
+          "icon": "media/dumbell.svg"
         }
       ]
     },
@@ -31,7 +31,7 @@
           "type": "webview",
           "id": "vsbuff-sidebar",
           "name": "vsbuff",
-          "icon": "media/nusmods_logo.svg",
+          "icon": "media/dumbell.svg",
           "contextualTitle": "vsbuff"
         }
       ]
