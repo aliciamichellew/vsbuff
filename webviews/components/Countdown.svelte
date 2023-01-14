@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { createEventDispatcher } from 'svelte'; 	
 	import { onMount, onDestroy, afterUpdate } from 'svelte';
 	import { tweened } from 'svelte/motion';
@@ -10,10 +10,10 @@
 	$: minutes = Math.floor(countdown / 60);
 	$: seconds = countdown % 60;
 
-	let firstH = tweened((9 - Math.floor(Math.floor(countdown / 60) / 10)) * 128, { duration: 300});
-	let firstL = tweened((9 - Math.floor(Math.floor(countdown / 60) % 10)) * 128, { duration: 300});
-	let secondH = tweened((9 - Math.floor(countdown % 60 / 10)) * 128, { duration: 300 });
-	let secondL = tweened((9 - Math.floor(countdown % 60 % 10)) * 128, { duration: 300 });
+	let firstH = tweened((9 - Math.floor(Math.floor(countdown / 60) / 10)) * 64, { duration: 300});
+	let firstL = tweened((9 - Math.floor(Math.floor(countdown / 60) % 10)) * 64, { duration: 300});
+	let secondH = tweened((9 - Math.floor(countdown % 60 / 10)) * 64, { duration: 300 });
+	let secondL = tweened((9 - Math.floor(countdown % 60 % 10)) * 64, { duration: 300 });
 
 	const val = tweened(0, { duration: 500 });
 	
@@ -24,10 +24,10 @@
 	})
 	
 	afterUpdate(() => {
-		firstH.set((9 - Math.floor(minutes / 10)) * 128);
-		firstL.set((9 - Math.floor(minutes % 10)) * 128);
-		secondH.set((9 - Math.floor(seconds / 10)) * 128);
-		secondL.set((9 - Math.floor(seconds % 10)) * 128);		
+		firstH.set((9 - Math.floor(minutes / 10)) * 64);
+		firstL.set((9 - Math.floor(minutes % 10)) * 64);
+		secondH.set((9 - Math.floor(seconds / 10)) * 64);
+		secondL.set((9 - Math.floor(seconds % 10)) * 64);		
 	})
 	
 	onDestroy(() => {
@@ -50,12 +50,12 @@
 		display: inline-block;
 		list-style: none;
 		padding-left: 0;
-		height: 94px;
+		height: 47px;
 		overflow: hidden;
 	}
 
 	.num {
-    font-size: 94px;
+    font-size: 47px;
 	}
 </style>
 <ul>
