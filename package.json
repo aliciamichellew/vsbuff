@@ -10,14 +10,41 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:vsmods.helloWorld"
+    "onCommand:vsmods.helloWorld",
+    "onCommand:vsmods.refresh",
+    "onView:vsmods-sidebar"
   ],
   "main": "./dist/extension.js",
   "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "vsmods-sidebar-view",
+          "title": "vsmods",
+          "icon": "media/nusmods_logo.svg"
+        }
+      ]
+    },
+    "views": {
+      "vsmods-sidebar-view": [
+        {
+          "type": "webview",
+          "id": "vsmods-sidebar",
+          "name": "vsmods",
+          "icon": "media/nusmods_logo.svg",
+          "contextualTitle": "vsmods"
+        }
+      ]
+    },
     "commands": [
       {
         "command": "vsmods.helloWorld",
         "title": "Hello World"
+      },
+      {
+        "command": "vsmods.refresh",
+        "category": "vsmods",
+        "title": "Refresh"
       }
     ]
   },
