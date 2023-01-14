@@ -1,6 +1,6 @@
 {
-  "name": "vsmods",
-  "displayName": "vsmods",
+  "name": "vsbuff",
+  "displayName": "vsbuff",
   "description": "",
   "version": "0.0.1",
   "engines": {
@@ -10,40 +10,40 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:vsmods.helloWorld",
-    "onCommand:vsmods.refresh",
-    "onView:vsmods-sidebar"
+    "onCommand:vsbuff.helloWorld",
+    "onCommand:vsbuff.refresh",
+    "onView:vsbuff-sidebar"
   ],
   "main": "./dist/extension.js",
   "contributes": {
     "viewsContainers": {
       "activitybar": [
         {
-          "id": "vsmods-sidebar-view",
-          "title": "vsmods",
+          "id": "vsbuff-sidebar-view",
+          "title": "vsbuff",
           "icon": "media/nusmods_logo.svg"
         }
       ]
     },
     "views": {
-      "vsmods-sidebar-view": [
+      "vsbuff-sidebar-view": [
         {
           "type": "webview",
-          "id": "vsmods-sidebar",
-          "name": "vsmods",
+          "id": "vsbuff-sidebar",
+          "name": "vsbuff",
           "icon": "media/nusmods_logo.svg",
-          "contextualTitle": "vsmods"
+          "contextualTitle": "vsbuff"
         }
       ]
     },
     "commands": [
       {
-        "command": "vsmods.helloWorld",
+        "command": "vsbuff.helloWorld",
         "title": "Hello World"
       },
       {
-        "command": "vsmods.refresh",
-        "category": "vsmods",
+        "command": "vsbuff.refresh",
+        "category": "vsbuff",
         "title": "Refresh"
       }
     ]

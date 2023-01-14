@@ -1,2 +1,3 @@
-<script lang="ts"></script>
+<script lang="ts">
+</script>
 <div>hello2</div>
