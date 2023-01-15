@@ -50,9 +50,11 @@
     }
 
     onMount(() => {
-		timer = setInterval(() => {
-			countdown += 1;
-	  }, 1000);
+        if (!timer && started) {
+            timer = setInterval(() => {
+                countdown += 1;
+            }, 1000);
+        }
 	})
 
     function handleStart() {
@@ -60,9 +62,11 @@
         countdown = 0; 
         countdumbbells = 0; 
         countjumprope = 0
-        timer = setInterval(() => {
-            countdown = countdown + 1;
-        }, 1000);
+        if (!timer) {
+            timer = setInterval(() => {
+                countdown += 1;
+            }, 1000);
+        }
     }
 
     function handleEnd() {
