@@ -1,7 +1,7 @@
 {
-  "name": "vsbuff",
+  "name": "vsgym",
   "publisher": "vsgym",
-  "displayName": "vsbuff",
+  "displayName": "vsgym",
   "description": "",
   "version": "0.0.1",
   "engines": {
@@ -11,40 +11,40 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:vsbuff.helloWorld",
-    "onCommand:vsbuff.refresh",
-    "onView:vsbuff-sidebar"
+    "onCommand:vsgym.helloWorld",
+    "onCommand:vsgym.refresh",
+    "onView:vsgym-sidebar"
   ],
   "main": "./dist/extension.js",
   "contributes": {
     "viewsContainers": {
       "activitybar": [
         {
-          "id": "vsbuff-sidebar-view",
-          "title": "vsbuff",
+          "id": "vsgym-sidebar-view",
+          "title": "vsgym",
           "icon": "media/dumbell.svg"
         }
       ]
     },
     "views": {
-      "vsbuff-sidebar-view": [
+      "vsgym-sidebar-view": [
         {
           "type": "webview",
-          "id": "vsbuff-sidebar",
-          "name": "vsbuff",
+          "id": "vsgym-sidebar",
+          "name": "vsgym",
           "icon": "media/dumbell.svg",
-          "contextualTitle": "vsbuff"
+          "contextualTitle": "vsgym"
         }
       ]
     },
     "commands": [
       {
-        "command": "vsbuff.helloWorld",
+        "command": "vsgym.helloWorld",
         "title": "Hello World"
       },
       {
-        "command": "vsbuff.refresh",
-        "category": "vsbuff",
+        "command": "vsgym.refresh",
+        "category": "vsgym",
         "title": "Refresh"
       }
     ]

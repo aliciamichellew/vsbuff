@@ -7,21 +7,21 @@ import { SidebarProvider } from "./SidebarProvider";
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
-  console.log('Congratulations, your extension "vsbuff" is now active!');
+  console.log('Congratulations, your extension "vsgym" is now active!');
 
   const sidebarProvider = new SidebarProvider(context.extensionUri);
   context.subscriptions.push(
-    vscode.window.registerWebviewViewProvider("vsbuff-sidebar", sidebarProvider)
+    vscode.window.registerWebviewViewProvider("vsgym-sidebar", sidebarProvider)
   );
 
-  let disposable = vscode.commands.registerCommand("vsbuff.helloWorld", () => {
+  let disposable = vscode.commands.registerCommand("vsgym.helloWorld", () => {
     TestPanel.createOrShow(context.extensionUri);
   });
 
   context.subscriptions.push(disposable);
 
   context.subscriptions.push(
-    vscode.commands.registerCommand("vsbuff.refresh", () => {
+    vscode.commands.registerCommand("vsgym.refresh", () => {
       TestPanel.kill();
       TestPanel.createOrShow(context.extensionUri);
       setTimeout(() => {
