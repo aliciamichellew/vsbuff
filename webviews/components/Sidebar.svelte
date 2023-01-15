@@ -1,12 +1,11 @@
 <script lang="ts">
-	import { fly } from 'svelte/transition'
-	// import Countdown from './Countdown.svelte';
-	// let done = false;
+	import { onMount } from 'svelte';
     let page: 'home' | 'dumbells' | 'jumprope' = tsvscode.getState()?.page || 'home';
-    let userInput = 0
+    let started = tsvscode.getState()?.started || false;
+    let countdown = tsvscode.getState()?.countdown || 0;
     let dumbbells = ['https://i.ibb.co/Z2S3zrS/1.png' , 'https://i.ibb.co/7zYcMgc/2.png' , 'https://i.ibb.co/cJThrmp/3.png' , 'https://i.ibb.co/dtf805F/4.png' , 'https://i.ibb.co/wNSj4Ds/8.png', 'https://i.ibb.co/qmSKDj1/7.png' , 'https://i.ibb.co/3cxCncD/5.png' , 'https://i.ibb.co/tbYdv5R/6.png' ,  'https://i.ibb.co/YQnMHnv/9.png', 'https://i.ibb.co/8McTXH7/10.png', 'https://i.ibb.co/VBc2YVP/11.png', 'https://i.ibb.co/DgT1SKb/12.png',
 'https://i.ibb.co/Lh76VKS/13.png' , 'https://i.ibb.co/Hn9FvGb/14.png' , 'https://i.ibb.co/TgG1L2D/15.png'];
-;   let countdumbbells = 0
+    let countdumbbells = tsvscode.getState()?.countdumbbells || 0;
     let jumprope = [
 'https://i.ibb.co/KKnFZXB/frame-00-delay-0-04s.png',
 'https://i.ibb.co/WHfzxtT/frame-01-delay-0-04s.png',
@@ -39,10 +38,50 @@
 'https://i.ibb.co/PjywtSL/frame-28-delay-0-04s.png',
 'https://i.ibb.co/xgDz2tx/frame-29-delay-0-04s.png',
 'https://i.ibb.co/2kcCWwp/frame-30-delay-0-04s.png']
-    let countjumprope = 0
+    let countjumprope = tsvscode.getState()?.countjumprope || 0;
+    $: hours = Math.floor(countdown / 3600);
+	$: minutes = Math.floor((countdown % 3600) / 60);
+	$: seconds = countdown % 60;
+    let timer = null
+    console.log(page, started, countdown, countdumbbells, countjumprope)
 
     $: {
-        tsvscode.setState({page});
+        tsvscode.setState({page, started, countdown, countdumbbells, countjumprope});
+    }
+
+    onMount(() => {
+		timer = setInterval(() => {
+			countdown += 1;
+	  }, 1000);
+	})
+
+    function handleStart() {
+        started = true; 
+        countdown = 0; 
+        countdumbbells = 0; 
+        countjumprope = 0
+        timer = setInterval(() => {
+            countdown = countdown + 1;
+        }, 1000);
+    }
+
+    function handleEnd() {
+        let hours = Math.floor(countdown / 3600);
+	    let minutes = Math.floor((countdown % 3600) / 60);
+	    let seconds = countdown % 60;
+        let cals = Math.floor(countdumbbells * 0.001) + Math.floor(Math.floor(countjumprope / 85) * 0.02);
+        tsvscode.postMessage({type: 'onInfo', value: `You have exercised for ${hours}h ${minutes}m ${seconds}s and burned ${cals} cal. Good job!`});
+        
+        if (timer) {
+			clearInterval(timer);
+		}
+        
+        started = false; 
+        page = 'home'; 
+        countdown = 0; 
+        countdumbbells = 0; 
+        countjumprope = 0;
+        
     }
 </script>
 
@@ -52,7 +91,7 @@
 		justify-content: center;
 		align-items: center;
 	}
-	.inner {
+	.inner, h3 {
 		text-align: center;
 	}
 
@@ -61,32 +100,49 @@
         margin-bottom: 5px;
     }
 
+    .empty {
+        height: 100px;
+    }
+
+    .timer {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
 </style>
 
-{#if page === 'home'}
-    <h2>Welcome to VSGym</h2>
-    <h4>Choose your exercise!</h4>
-
-    <button on:click={() => {page = 'dumbells'}}>Lift dumbells</button>
-    <button on:click={() => {page = 'jumprope'}}>Jump rope</button>
+{#if started}
+    <div class="timer">
+        <div>Time elapsed: </div>
+        <div class="num">
+            {Math.floor(hours / 10)}{Math.floor(hours % 10)}:{Math.floor(minutes / 10)}{Math.floor(minutes % 10)}:{Math.floor(seconds / 10)}{Math.floor(seconds % 10)}
+        </div>
+    </div>
+    <button on:click={() => handleEnd()}>End exercise</button>
+    {#if page !== 'home'}
+        <button on:click={() => {page = 'home'}}>Back to menu</button>
+    {/if}
+    
+    <!-- <div class="empty"></div> -->
 {/if}
 
-<!-- <button
-    on:click={() => {
-        tsvscode.postMessage({ type: 'onInfo', value: 'info message' });
-    }}>Start now</button> -->
+{#if page === 'home'}
+    {#if started}
+        <h3>Choose your exercise!</h3>
+
+        <button on:click={() => {page = 'dumbells'}}>Lift dumbells</button>
+        <button on:click={() => {page = 'jumprope'}}>Jump rope</button>
+    {:else} 
+        <h2>Welcome to VSGym!</h2>
+        <button on:click={() => handleStart()}>Start exercising</button>
+    {/if}
+{/if}
+
 
 <div class="container">
 	<div class="inner">
-		<!-- <Countdown countdown={360} on:completed="{() => done = true}" />
-
-		{#if done}
-			<h2 in:fly>You have been working hard! Time to exercise!</h2>	
-		{/if}		 -->
-
-        {#if page !== 'home'}
-            <button on:click={() => {page = 'home'}}>Back to menu</button>
-        {/if}
 
         {#if page === 'dumbells'}
             <!-- <hr class="solid" /> -->
@@ -96,7 +152,7 @@
             <br />
             <div>You have lifted the dumbbells {Math.floor(countdumbbells / 14)} times ({Math.floor(1000 / 14)} lift = 1 calorie)</div>
             <br />
-            <button on:click={() => {countdumbbells++;}}>Lift the Dumbbells</button>
+            <button on:click={() => {countdumbbells = countdumbbells + 1;}}>Lift the Dumbbells</button>
             <br />
             <br />
             <div>You have burn {Math.floor(countdumbbells * 0.001)} calories from <strike>clicking the mouse</strike> lifting the dumbbells.</div>
@@ -105,7 +161,7 @@
         {#if page === 'jumprope'}
             <!-- <hr class="solid" /> -->
             <br />
-            <img src={jumprope[Math.floor(countjumprope / 5) % 31]} on:mousemove={() => {countjumprope++;}} alt="jumprope{Math.floor(countjumprope / 5) % 31}"/>
+            <img src={jumprope[Math.floor(countjumprope / 5) % 31]} on:mousemove={() => {countjumprope = countjumprope + 1;}} alt="jumprope{Math.floor(countjumprope / 5) % 31}"/>
             <br />
             <br />
             <div>You have jumped rope {Math.floor(countjumprope / 85)} times (50 jump rope = 1 calorie)</div> 
