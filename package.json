@@ -4,7 +4,7 @@
   "displayName": "vsgym",
   "description": "",
   "icon": "media/logo.jpg",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "engines": {
     "vscode": "^1.74.0"
   },
