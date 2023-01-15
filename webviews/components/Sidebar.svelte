@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { fly } from 'svelte/transition'
-	import Countdown from './Countdown.svelte';
-	let done = false;
+	// import Countdown from './Countdown.svelte';
+	// let done = false;
+    let page: 'home' | 'dumbells' | 'jumprope' = tsvscode.getState()?.page || 'home';
     let userInput = 0
     let dumbbells = ['https://i.ibb.co/Z2S3zrS/1.png' , 'https://i.ibb.co/7zYcMgc/2.png' , 'https://i.ibb.co/cJThrmp/3.png' , 'https://i.ibb.co/dtf805F/4.png' , 'https://i.ibb.co/wNSj4Ds/8.png', 'https://i.ibb.co/qmSKDj1/7.png' , 'https://i.ibb.co/3cxCncD/5.png' , 'https://i.ibb.co/tbYdv5R/6.png' ,  'https://i.ibb.co/YQnMHnv/9.png', 'https://i.ibb.co/8McTXH7/10.png', 'https://i.ibb.co/VBc2YVP/11.png', 'https://i.ibb.co/DgT1SKb/12.png',
 'https://i.ibb.co/Lh76VKS/13.png' , 'https://i.ibb.co/Hn9FvGb/14.png' , 'https://i.ibb.co/TgG1L2D/15.png'];
@@ -39,6 +40,10 @@
 'https://i.ibb.co/xgDz2tx/frame-29-delay-0-04s.png',
 'https://i.ibb.co/2kcCWwp/frame-30-delay-0-04s.png']
     let countjumprope = 0
+
+    $: {
+        tsvscode.setState({page});
+    }
 </script>
 
 <style>
@@ -50,45 +55,63 @@
 	.inner {
 		text-align: center;
 	}
+
+    button {
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+
 </style>
 
+{#if page === 'home'}
+    <h2>Welcome to VSGym</h2>
+    <h4>Choose your exercise!</h4>
 
-<h2>How many minutes do you want to focus?</h2>
+    <button on:click={() => {page = 'dumbells'}}>Lift dumbells</button>
+    <button on:click={() => {page = 'jumprope'}}>Jump rope</button>
+{/if}
 
-<input bind:value={userInput} />
-<button
+<!-- <button
     on:click={() => {
         tsvscode.postMessage({ type: 'onInfo', value: 'info message' });
-    }}>Start now</button>
+    }}>Start now</button> -->
 
 <div class="container">
 	<div class="inner">
-		<Countdown countdown={360} on:completed="{() => done = true}" />
+		<!-- <Countdown countdown={360} on:completed="{() => done = true}" />
 
 		{#if done}
 			<h2 in:fly>You have been working hard! Time to exercise!</h2>	
-		{/if}		
+		{/if}		 -->
 
-        <hr class="solid" />
-        <br />
-        <img src={dumbbells[countdumbbells % 15]} />
-        <br />
-        <br />
-        <div>You have lifted the dumbbells {Math.floor(countdumbbells / 14)} times ({Math.floor(1000 / 14)} lift = 1 calorie)</div>
-        <br />
-        <button on:click={() => {countdumbbells++;}}>Lift the Dumbbells</button>
-        <br />
-        <br />
-        <div>You have burn {Math.floor(countdumbbells * 0.001)} calories from <strike>clicking the mouse</strike> lifting the dumbbells.</div>
-        <br />
-        <hr class="solid" />
-        <br />
-        <img src={jumprope[Math.floor(countjumprope / 5) % 31]} on:mousemove={() => {countjumprope++;}}/>
-        <br />
-        <br />
-        <div>You have jumped rope {Math.floor(countjumprope / 85)} times (50 jump rope = 1 calorie)</div> 
-        <br />
-        <div>You have burn {Math.floor(Math.floor(countjumprope / 85) * 0.02)} calories from <strike>moving the mouse</strike> jump rope.</div>
-        <hr class="solid" />
+        {#if page !== 'home'}
+            <button on:click={() => {page = 'home'}}>Back to menu</button>
+        {/if}
+
+        {#if page === 'dumbells'}
+            <!-- <hr class="solid" /> -->
+            <br />
+            <img src={dumbbells[countdumbbells % 15]} alt="dumbells{countdumbbells % 15}" />
+            <br />
+            <br />
+            <div>You have lifted the dumbbells {Math.floor(countdumbbells / 14)} times ({Math.floor(1000 / 14)} lift = 1 calorie)</div>
+            <br />
+            <button on:click={() => {countdumbbells++;}}>Lift the Dumbbells</button>
+            <br />
+            <br />
+            <div>You have burn {Math.floor(countdumbbells * 0.001)} calories from <strike>clicking the mouse</strike> lifting the dumbbells.</div>
+            <br />
+        {/if}
+        {#if page === 'jumprope'}
+            <!-- <hr class="solid" /> -->
+            <br />
+            <img src={jumprope[Math.floor(countjumprope / 5) % 31]} on:mousemove={() => {countjumprope++;}} alt="jumprope{Math.floor(countjumprope / 5) % 31}"/>
+            <br />
+            <br />
+            <div>You have jumped rope {Math.floor(countjumprope / 85)} times (50 jump rope = 1 calorie)</div> 
+            <br />
+            <div>You have burn {Math.floor(Math.floor(countjumprope / 85) * 0.02)} calories from <strike>moving the mouse</strike> jump rope.</div>
+            <!-- <hr class="solid" /> -->
+        {/if}
 	</div>
 </div>
