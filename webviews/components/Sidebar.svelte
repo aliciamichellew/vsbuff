@@ -161,6 +161,8 @@
         {#if page === 'jumprope'}
             <!-- <hr class="solid" /> -->
             <br />
+            <div>Hover your mouse in the picture to jump!</div>
+            <br />
             <img src={jumprope[Math.floor(countjumprope / 5) % 31]} on:mousemove={() => {countjumprope = countjumprope + 1;}} alt="jumprope{Math.floor(countjumprope / 5) % 31}"/>
             <br />
             <br />
