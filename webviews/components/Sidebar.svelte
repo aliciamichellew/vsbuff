@@ -78,6 +78,7 @@
         
         if (timer) {
 			clearInterval(timer);
+            timer = null;
 		}
         
         started = false; 
